@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticleCanvas();
   initScrollNav();
   initPortfolioProjects();
+  initCreativeGallery();
   initSkillsAnimation();
   initCounterStats();
   initContactForm();
@@ -528,6 +529,18 @@ window.openProjectModal = function (projectId) {
     .map((tag) => `<span class="project-tag" style="font-size: 0.8rem; padding: 5px 12px;">${escapeHtml(tag)}</span>`)
     .join("");
 
+  const showcaseHtml = project.showcaseImage
+    ? `
+      <div style="margin: 24px 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); background: rgba(0,0,0,0.3);">
+        <div style="padding: 10px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 0.82rem; font-weight: 600; color: var(--accent-cyan);"><i class="fa-solid fa-layer-group"></i> System Architecture & Unified Multi-Device Showcase</span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">Live Ecosystem Overview</span>
+        </div>
+        <img src="${escapeHtml(project.showcaseImage)}" alt="System Showcase" style="width: 100%; height: auto; display: block;" onerror="this.style.display='none'">
+      </div>
+    `
+    : "";
+
   modalBody.innerHTML = `
     <div style="position: relative; max-height: 420px; overflow: hidden; background: #0b1120; border-top-left-radius: 20px; border-top-right-radius: 20px;">
       <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" style="width: 100%; max-height: 420px; object-fit: contain; margin: 0 auto;" onerror="this.src='assets/img/project-flutter-ui.png'">
@@ -543,6 +556,8 @@ window.openProjectModal = function (projectId) {
       <p style="font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 24px; white-space: pre-line;">
         ${escapeHtml(project.description)}
       </p>
+
+      ${showcaseHtml}
 
       <div style="margin-bottom: 28px;">
         <h5 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); margin-bottom: 10px;">Tech Stack & Methodologies</h5>
@@ -735,7 +750,75 @@ function showToast(message) {
 }
 
 /* ==========================================================================
-   12. Scroll Reveal Animations (IntersectionObserver)
+   13. Creative Studio Tabs & Lightbox Handler
+   ========================================================================== */
+function initCreativeGallery() {
+  const tabButtons = document.querySelectorAll(".gallery-tab-btn");
+  const tabPanes = {
+    "before-after": document.getElementById("tab-before-after"),
+    "photography": document.getElementById("tab-photography"),
+    "digital-design": document.getElementById("tab-digital-design")
+  };
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const targetTab = btn.getAttribute("data-gallery-tab");
+      Object.keys(tabPanes).forEach((key) => {
+        if (tabPanes[key]) {
+          tabPanes[key].classList.toggle("active", key === targetTab);
+        }
+      });
+    });
+  });
+
+  // Lightbox click-outside closer
+  const lightbox = document.getElementById("gallery-lightbox");
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+  }
+
+  // Keyboard escape closer
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeLightbox();
+      closeProjectModal();
+    }
+  });
+}
+
+window.openLightbox = function (imageSrc, caption) {
+  const lightbox = document.getElementById("gallery-lightbox");
+  const img = document.getElementById("lightbox-img");
+  const captionEl = document.getElementById("lightbox-caption");
+
+  if (!lightbox || !img) return;
+
+  img.src = imageSrc;
+  if (captionEl) {
+    captionEl.textContent = caption || "Creative Studio Asset";
+  }
+
+  lightbox.classList.add("active");
+  document.body.style.overflow = "hidden";
+};
+
+window.closeLightbox = function () {
+  const lightbox = document.getElementById("gallery-lightbox");
+  if (lightbox) {
+    lightbox.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+};
+
+/* ==========================================================================
+   14. Scroll Reveal Animations (IntersectionObserver)
    ========================================================================== */
 function initScrollReveals() {
   const reveals = document.querySelectorAll(".reveal-up");
@@ -763,3 +846,4 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+

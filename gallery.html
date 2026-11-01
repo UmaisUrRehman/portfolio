@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Art Gallery | Umais Ur Rehman</title>
+  <meta name="description" content="Explore photography, before and after Photoshop retouching, and creative digital designs by Umais Ur Rehman.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/profile.jpeg">
+
+  <style>
+    .gallery-page-hero {
+      padding: 130px 0 60px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 20%, rgba(0, 240, 255, 0.08), transparent 60%);
+    }
+    .gallery-filter-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particle Background -->
+  <canvas id="canvas-particles"></canvas>
+
+  <div class="site-wrapper">
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container header-container">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">U</div>
+          <div class="logo-text"><span class="profile-name-text">Umais</span><span>.dev</span></div>
+        </a>
+
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="index.html#home" class="nav-link">Home</a></li>
+            <li><a href="index.html#work" class="nav-link">Projects</a></li>
+            <li><a href="gallery.html" class="nav-link active">Art Gallery</a></li>
+            <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+            <li><a href="index.html#experience" class="nav-link">Experience</a></li>
+            <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle theme">
+            <i class="fa-solid fa-sun"></i>
+          </button>
+          <a href="index.html#contact" class="btn btn-primary btn-sm">
+            <span>Hire Me</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="gallery-page-hero">
+        <div class="container">
+          <span class="section-tag"><i class="fa-solid fa-palette"></i> Creative Portfolio</span>
+          <h1 class="section-title" style="font-size: 2.8rem; margin-bottom: 16px;">
+            Visual Arts & <span class="gradient-text">Creative Media Gallery</span>
+          </h1>
+          <p class="section-subtitle" style="max-width: 720px; margin: 0 auto;">
+            Showcasing 4+ years of professional visual arts, Nikon RAW portraiture and landscapes, and creative commercial branding designs.
+          </p>
+        </div>
+      </section>
+
+      <!-- Gallery Showcase Section -->
+      <section class="section" style="padding-top: 0;">
+        <div class="container">
+          <!-- Filter Navigation Tabs -->
+          <div class="gallery-tabs-nav reveal-up">
+            <button class="gallery-tab-btn active" data-tab="all">
+              <i class="fa-solid fa-border-all"></i> All Works
+            </button>
+            <button class="gallery-tab-btn" data-tab="photography">
+              <i class="fa-solid fa-camera"></i> Photography & Portraiture
+            </button>
+            <button class="gallery-tab-btn" data-tab="digital-design">
+              <i class="fa-solid fa-palette"></i> Creative Digital Designs
+            </button>
+          </div>
+
+          <!-- Dynamic Gallery Container -->
+          <div id="gallery-items-container">
+            <!-- Rendered dynamically by gallery.js -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-top">
+          <a href="index.html" class="nav-logo">
+            <div class="logo-icon">U</div>
+            <div class="logo-text"><span class="profile-name-text">Umais</span><span>.dev</span></div>
+          </a>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+            <a href="index.html#home" class="nav-link">Home</a>
+            <a href="index.html#work" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Art Gallery</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div>&copy; 2026 <strong class="profile-name-text">Umais Ur Rehman</strong>. All rights reserved.</div>
+          <div>Gujranwala, Pakistan &bull; +92 307 4069818 &bull; umaisurrehman47@gmail.com</div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="gallery-lightbox" class="modal-backdrop">
+      <div class="lightbox-content-box">
+        <button class="modal-close-btn" onclick="closeLightbox()" aria-label="Close lightbox">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="lightbox-image-container">
+          <img id="lightbox-img" src="" alt="Full view">
+        </div>
+        <div id="lightbox-caption" class="lightbox-caption-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/portfolio-data.js"></script>
+  <script>
+    // Theme setup
+    const savedTheme = localStorage.getItem("umais_theme") || "dark";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    const themeBtn = document.getElementById("theme-toggle-btn");
+    const themeIcon = themeBtn?.querySelector("i");
+    if (themeIcon) themeIcon.className = savedTheme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    themeBtn?.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("umais_theme", next);
+      if (themeIcon) themeIcon.className = next === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    });
+
+    // Particle Background
+    const canvas = document.getElementById("canvas-particles");
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      let w = (canvas.width = window.innerWidth);
+      let h = (canvas.height = window.innerHeight);
+      window.addEventListener("resize", () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+      const particles = Array.from({ length: 35 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        r: Math.random() * 2 + 1
+      }));
+      function anim() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(0, 240, 255, 0.4)";
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(anim);
+      }
+      anim();
+    }
+
+    // Lightbox Controls
+    window.openLightbox = function(src, caption) {
+      const modal = document.getElementById("gallery-lightbox");
+      const img = document.getElementById("lightbox-img");
+      const cap = document.getElementById("lightbox-caption");
+      if (!modal || !img) return;
+      img.src = src;
+      if (cap) cap.textContent = caption || "";
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    };
+    window.closeLightbox = function() {
+      const modal = document.getElementById("gallery-lightbox");
+      if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    };
+    document.getElementById("gallery-lightbox")?.addEventListener("click", (e) => {
+      if (e.target.id === "gallery-lightbox") closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    // Gallery Render Logic
+    let currentTab = "all";
+    function renderGallery() {
+      const items = getGalleryItems();
+      const container = document.getElementById("gallery-items-container");
+      if (!container) return;
+
+      const filtered = currentTab === "all" ? items : items.filter(it => it.category === currentTab);
+
+      let html = "";
+
+      // Photography Group
+      const photoItems = filtered.filter(it => it.category === "photography");
+      if (photoItems.length > 0 && (currentTab === "all" || currentTab === "photography")) {
+        html += `
+          <div style="margin-bottom: 60px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+              <span class="comparison-tag" style="font-size: 0.9rem;"><i class="fa-solid fa-camera"></i> Photography & Portraiture</span>
+              <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+            </div>
+            <div class="photography-masonry-grid">
+              ${photoItems.map(item => `
+                <div class="photo-item" onclick="openLightbox('${item.image}', '${item.title}')">
+                  <img src="${item.image}" alt="${item.title}" loading="lazy">
+                  <div class="photo-hover-overlay">
+                    <span class="photo-badge">${item.subtitle || "Nikon RAW"}</span>
+                    <h5>${item.title}</h5>
+                    <p>${item.description || ""}</p>
+                    <i class="fa-solid fa-magnifying-glass-plus zoom-icon"></i>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      // Digital Design Group
+      const designItems = filtered.filter(it => it.category === "digital-design");
+      if (designItems.length > 0 && (currentTab === "all" || currentTab === "digital-design")) {
+        html += `
+          <div style="margin-bottom: 60px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+              <span class="comparison-tag" style="font-size: 0.9rem;"><i class="fa-solid fa-palette"></i> Creative Digital Designs & Branding</span>
+              <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+            </div>
+            <div class="digital-design-grid">
+              ${designItems.map(item => `
+                <div class="design-card">
+                  <div class="design-media-preview" onclick="openLightbox('${item.image}', '${item.title}')">
+                    <img src="${item.image}" alt="${item.title}" loading="lazy">
+                    <div class="design-overlay-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                  </div>
+                  <div class="design-card-content">
+                    <div class="design-meta-tags">
+                      <span class="badge-design-type">${item.subtitle || "Design"}</span>
+                      <span class="badge-design-software">Adobe Creative Suite</span>
+                    </div>
+                    <h4 class="design-card-title">${item.title}</h4>
+                    <p class="design-card-desc">${item.description || ""}</p>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      if (!html) {
+        html = `
+          <div style="text-align: center; padding: 60px 20px;">
+            <i class="fa-solid fa-image" style="font-size: 3rem; color: var(--text-dim); margin-bottom: 16px;"></i>
+            <h3>No items in this category</h3>
+            <p style="color: var(--text-muted);">Upload items via the Admin Panel to display them here.</p>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // Tab buttons click
+    document.querySelectorAll(".gallery-tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".gallery-tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentTab = btn.getAttribute("data-tab");
+        renderGallery();
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", renderGallery);
+  </script>
+</body>
+</html>

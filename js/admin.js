@@ -62,6 +62,7 @@ function showDashboard() {
   initProfileDetailsForm();
   initDropzone();
   initUploadForm();
+  initGalleryAdmin();
 }
 
 function showAuth() {
@@ -399,17 +400,14 @@ function mountAdminDashboard() {
     <div class="admin-section-box">
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px;">
         <div>
-          <h2 style="font-size: 1.4rem;"><i class="fa-solid fa-list-check" style="color: var(--accent-cyan); margin-right: 8px;"></i> Manage Existing Portfolio Works</h2>
-          <p style="font-size: 0.875rem; color: var(--text-muted);">Edit, delete, or inspect currently active portfolio items.</p>
+          <h2 style="font-size: 1.4rem;"><i class="fa-solid fa-list-check" style="color: var(--accent-cyan); margin-right: 8px;"></i> Manage Existing Clinical Projects</h2>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">Inspect, edit, or delete active portfolio engineering projects.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
           <select id="table-filter-cat" class="form-control" style="width: auto;" onchange="renderAdminTable()">
             <option value="all">All Categories</option>
-            <option value="flutter">Flutter Dev</option>
-            <option value="python">Python Backend</option>
-            <option value="web">Web Dev</option>
-            <option value="photography">Photography</option>
-            <option value="documentation">Documentation</option>
+            <option value="python">MediSim Flagship</option>
+            <option value="flutter">Training Monitor App</option>
           </select>
         </div>
       </div>
@@ -426,6 +424,92 @@ function mountAdminDashboard() {
             </tr>
           </thead>
           <tbody id="admin-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section E2: Art Gallery Upload & Management -->
+    <div class="admin-section-box">
+      <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h2 style="font-size: 1.4rem;"><i class="fa-solid fa-palette" style="color: var(--accent-cyan); margin-right: 8px;"></i> Art Gallery Upload & Media Management</h2>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">Upload photos, before & after Photoshop comparisons (2 images: before & after), or creative digital branding designs.</p>
+        </div>
+        <a href="gallery.html" target="_blank" class="btn btn-secondary btn-sm">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Gallery
+        </a>
+      </div>
+
+      <form id="upload-gallery-form" style="margin-bottom: 32px;">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="gal-category" class="form-label">Gallery Category *</label>
+            <select id="gal-category" class="form-control" required>
+              <option value="photography" selected>Photography & Portraiture</option>
+              <option value="digital-design">Creative Digital Designs & Branding</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="gal-title" class="form-label">Title / Caption *</label>
+            <input type="text" id="gal-title" class="form-control" placeholder="e.g. Cinematic Atmosphere Portrait" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="gal-subtitle" class="form-label">Subtitle / Badge</label>
+            <input type="text" id="gal-subtitle" class="form-control" placeholder="e.g. Nikon RAW or 3D Brand Mark">
+          </div>
+          <div class="form-group">
+            <label for="gal-tags" class="form-label">Tags (comma separated)</label>
+            <input type="text" id="gal-tags" class="form-control" placeholder="e.g. Nikon DSLR, RAW .NEF, Portrait">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="gal-desc" class="form-label">Technique & Description</label>
+          <textarea id="gal-desc" class="form-control" style="min-height: 80px;" placeholder="Explain the lighting, camera settings, concept, or design motif..."></textarea>
+        </div>
+
+        <!-- Single Image Dropzone for Photo & Design Uploads -->
+        <div id="gal-single-image-inputs">
+          <div class="form-group">
+            <label class="form-label">Showcase Image *</label>
+            <div id="gal-single-dropzone" class="dropzone" style="padding: 24px;">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--accent-cyan); margin-bottom: 6px;"></i>
+              <p style="font-size: 0.9rem; margin-bottom: 2px;">Click or drop photo / design file</p>
+              <small style="color: var(--text-dim);">Supports JPG, PNG, WEBP</small>
+              <input type="file" id="gal-single-file" accept="image/*" style="display: none;">
+            </div>
+            <input type="text" id="gal-single-url" class="form-control" style="margin-top: 10px;" placeholder="Or image path / URL (e.g. assets/img/gallary/photography/DSC_0153_1.jpg)">
+            <img id="gal-single-preview" class="image-preview-box" alt="Single Preview">
+          </div>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; gap: 14px;">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-upload"></i>
+            <span>Add to Art Gallery</span>
+          </button>
+          <button type="reset" class="btn btn-secondary" onclick="resetGalleryUploadForm()">
+            <span>Clear</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Manage Existing Gallery Items Table -->
+      <h3 style="font-size: 1.15rem; margin-bottom: 14px;"><i class="fa-solid fa-images"></i> Active Gallery Items</h3>
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Preview</th>
+              <th>Title & Subtitle</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-gallery-table-body"></tbody>
         </table>
       </div>
     </div>
@@ -1000,3 +1084,179 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+/* ==========================================================================
+   12. Art Gallery Upload & Management Engine
+   ========================================================================== */
+let uploadedGalSingleUrl = "";
+
+function initGalleryAdmin() {
+  renderGalleryAdminTable();
+  initGalleryDropzones();
+  initGalleryUploadForm();
+}
+
+function initGalleryDropzones() {
+  // Single Showcase Dropzone
+  setupFileDropzone(
+    "gal-single-dropzone",
+    "gal-single-file",
+    "gal-single-preview",
+    (dataUrl) => (uploadedGalSingleUrl = dataUrl)
+  );
+}
+
+function setupFileDropzone(dropzoneId, fileInputId, previewImgId, onLoaded) {
+  const dropzone = document.getElementById(dropzoneId);
+  const fileInput = document.getElementById(fileInputId);
+  const preview = document.getElementById(previewImgId);
+
+  if (!dropzone || !fileInput) return;
+
+  dropzone.addEventListener("click", () => fileInput.click());
+
+  dropzone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropzone.classList.add("dragover");
+  });
+
+  dropzone.addEventListener("dragleave", () => {
+    dropzone.classList.remove("dragover");
+  });
+
+  dropzone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropzone.classList.remove("dragover");
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files && fileInput.files[0]) {
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+  function handleFile(file) {
+    if (!file.type.startsWith("image/")) {
+      alert("Please select a valid image file.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target.result;
+      if (preview) {
+        preview.src = result;
+        preview.style.display = "block";
+      }
+      onLoaded(result);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function initGalleryUploadForm() {
+  const form = document.getElementById("upload-gallery-form");
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const category = document.getElementById("gal-category").value;
+    const title = document.getElementById("gal-title").value.trim();
+    const subtitle = document.getElementById("gal-subtitle").value.trim() || "";
+    const description = document.getElementById("gal-desc").value.trim() || "";
+    const tagsRaw = document.getElementById("gal-tags").value.trim();
+    const tags = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
+
+    let newItem = {
+      id: "gal-" + Date.now(),
+      category,
+      title,
+      subtitle,
+      description,
+      tags
+    };
+
+    const manualSingle = document.getElementById("gal-single-url")?.value.trim() || "";
+    const singleImg = uploadedGalSingleUrl || manualSingle;
+    if (!singleImg) {
+      alert("Please provide or upload a showcase image.");
+      return;
+    }
+    newItem.image = singleImg;
+
+    const currentGallery = getGalleryItems();
+    currentGallery.unshift(newItem);
+    saveGalleryItems(currentGallery);
+
+    showToast(`"${title}" added to Art Gallery!`);
+    form.reset();
+    resetGalleryUploadForm();
+    renderGalleryAdminTable();
+  });
+}
+
+window.resetGalleryUploadForm = function () {
+  uploadedGalSingleUrl = "";
+  const el = document.getElementById("gal-single-preview");
+  if (el) {
+    el.src = "";
+    el.style.display = "none";
+  }
+};
+
+window.renderGalleryAdminTable = function () {
+  const tbody = document.getElementById("admin-gallery-table-body");
+  if (!tbody) return;
+
+  const items = getGalleryItems();
+  if (items.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 24px; color: var(--text-dim);">No gallery items found.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = items
+    .map((item) => {
+      let previewHtml = `<img src="${escapeHtml(item.image || item.afterImage || '')}" alt="${escapeHtml(item.title)}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px;">`;
+
+      const catBadges = {
+        "photography": "Photography",
+        "digital-design": "Digital Design"
+      };
+
+      return `
+        <tr>
+          <td style="width: 100px;">${previewHtml}</td>
+          <td>
+            <strong>${escapeHtml(item.title)}</strong>
+            <small style="display: block; color: var(--text-muted);">${escapeHtml(item.subtitle || "")}</small>
+          </td>
+          <td>
+            <span class="badge-cat">${escapeHtml(catBadges[item.category] || item.category)}</span>
+          </td>
+          <td>
+            <button class="btn btn-outline btn-sm" style="color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.4);" onclick="deleteGalleryItem('${item.id}')" title="Delete Gallery Item">
+              <i class="fa-solid fa-trash-can"></i> Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    })
+    .join("");
+};
+
+window.deleteGalleryItem = function (itemId) {
+  const items = getGalleryItems();
+  const target = items.find((i) => i.id === itemId);
+  if (!target) return;
+
+  if (confirm(`Delete "${target.title}" from the Art Gallery?`)) {
+    const updated = items.filter((i) => i.id !== itemId);
+    saveGalleryItems(updated);
+    showToast(`Removed "${target.title}" from Art Gallery.`);
+    renderGalleryAdminTable();
+  }
+};
+

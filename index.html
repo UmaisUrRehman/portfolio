@@ -101,7 +101,8 @@
           <ul class="nav-menu">
             <li><a href="#home" class="nav-link active">Home</a></li>
             <li><a href="#services" class="nav-link">Services</a></li>
-            <li><a href="#work" class="nav-link">Work</a></li>
+            <li><a href="#work" class="nav-link">Projects</a></li>
+            <li><a href="gallery.html" class="nav-link">Art Gallery</a></li>
             <li><a href="#skills" class="nav-link">Skills</a></li>
             <li><a href="#experience" class="nav-link">Experience</a></li>
             <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -391,33 +392,71 @@
           <!-- Category Filters -->
           <div class="portfolio-filter-bar reveal-up">
             <button class="filter-btn active" data-filter="all">
-              <i class="fa-solid fa-border-all"></i> All Categories
+              <i class="fa-solid fa-border-all"></i> All Clinical Systems
               <span class="filter-count" data-filter-count="all">0</span>
             </button>
-            <button class="filter-btn" data-filter="flutter">
-              <i class="fa-brands fa-flutter"></i> Flutter Dev
-              <span class="filter-count" data-filter-count="flutter">0</span>
-            </button>
             <button class="filter-btn" data-filter="python">
-              <i class="fa-brands fa-python"></i> Python Backend
+              <i class="fa-brands fa-python"></i> MediSim Flagship FYP
               <span class="filter-count" data-filter-count="python">0</span>
             </button>
-            <button class="filter-btn" data-filter="web">
-              <i class="fa-solid fa-globe"></i> Web Dev
-              <span class="filter-count" data-filter-count="web">0</span>
-            </button>
-            <button class="filter-btn" data-filter="photography">
-              <i class="fa-solid fa-camera-retro"></i> Photography & Creative
-              <span class="filter-count" data-filter-count="photography">0</span>
-            </button>
-            <button class="filter-btn" data-filter="documentation">
-              <i class="fa-solid fa-file-invoice"></i> Documentation
-              <span class="filter-count" data-filter-count="documentation">0</span>
+            <button class="filter-btn" data-filter="flutter">
+              <i class="fa-brands fa-flutter"></i> Training Monitor App
+              <span class="filter-count" data-filter-count="flutter">0</span>
             </button>
           </div>
 
           <!-- Dynamic Projects Grid -->
           <div id="projects-grid" class="projects-grid"></div>
+        </div>
+      </section>
+
+      <!-- Creative Media & Art Studio Teaser -->
+      <section id="gallery" class="section" style="background: rgba(15, 23, 42, 0.45); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+          <div class="section-header reveal-up">
+            <span class="section-tag"><i class="fa-solid fa-palette"></i> Creative Direction & Visual Arts</span>
+            <h2 class="section-title">Visual Arts & <span class="gradient-text">Creative Media Studio</span></h2>
+            <p class="section-subtitle">
+              Complementing software engineering with 4+ years of professional multimedia production, RAW Nikon portraiture, landscapes, and commercial brand designs.
+            </p>
+          </div>
+
+          <!-- Featured Showcase Grid Preview -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;" class="reveal-up">
+            <div class="photo-item" style="aspect-ratio: 16/10;" onclick="window.location.href='gallery.html'">
+              <img src="assets/img/gallary/photography/DSC_0153_1.jpg" alt="Cinematic Atmosphere Portrait" loading="lazy">
+              <div class="photo-hover-overlay" style="opacity: 1; background: linear-gradient(to top, rgba(11, 17, 32, 0.92) 0%, rgba(11, 17, 32, 0.2) 60%, transparent 100%);">
+                <span class="photo-badge">Photography</span>
+                <h5>Cinematic Atmosphere Portrait</h5>
+                <p>Nikon RAW • Cold Tones & Atmospheric Smoke</p>
+              </div>
+            </div>
+
+            <div class="photo-item" style="aspect-ratio: 16/10;" onclick="window.location.href='gallery.html'">
+              <img src="assets/img/gallary/designs/RZ logo.png" alt="RS Computers Corporate Identity" loading="lazy" style="object-fit: contain; background: #080d19; padding: 20px;">
+              <div class="photo-hover-overlay" style="opacity: 1; background: linear-gradient(to top, rgba(11, 17, 32, 0.92) 0%, rgba(11, 17, 32, 0.2) 60%, transparent 100%);">
+                <span class="photo-badge">Digital Design</span>
+                <h5>RS Computers Monogram</h5>
+                <p>3D Isometric Corporate Identity & Brand Mark</p>
+              </div>
+            </div>
+
+            <div class="photo-item" style="aspect-ratio: 16/10;" onclick="window.location.href='gallery.html'">
+              <img src="assets/img/gallary/photography/DSC_0503.jpg" alt="Sunset Solitude Landscape" loading="lazy">
+              <div class="photo-hover-overlay" style="opacity: 1; background: linear-gradient(to top, rgba(11, 17, 32, 0.92) 0%, rgba(11, 17, 32, 0.2) 60%, transparent 100%);">
+                <span class="photo-badge">Landscape</span>
+                <h5>Sunset Solitude</h5>
+                <p>Water Reflections & Golden Hour Silhouette</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 40px;" class="reveal-up">
+            <a href="gallery.html" class="btn btn-secondary btn-lg">
+              <i class="fa-solid fa-images"></i>
+              <span>Explore Full Art Gallery (Photography & Digital Designs)</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -879,6 +918,19 @@
           <i class="fa-solid fa-xmark"></i>
         </button>
         <div id="project-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Creative Media Lightbox Modal -->
+    <div id="gallery-lightbox" class="modal-backdrop">
+      <div class="lightbox-content-box">
+        <button class="modal-close-btn" onclick="closeLightbox()" aria-label="Close lightbox">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="lightbox-image-container">
+          <img id="lightbox-img" src="" alt="Full view">
+        </div>
+        <div id="lightbox-caption" class="lightbox-caption-text"></div>
       </div>
     </div>
   </div>
