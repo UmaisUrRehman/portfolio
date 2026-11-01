@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Umais Ur Rehman — Professional Developer Portfolio
 
 > A modern, lightning-fast developer portfolio website engineered with clean **HTML5, CSS3, and JavaScript**. Zero build steps, zero npm dependencies, and ready to deploy instantly to **Netlify** or **GitHub Pages**.
@@ -110,3 +111,7 @@ umais-portfolio/
     ├── img/                   # Profile image and project screenshots
     └── docs/                  # Project documentation PDFs
 ```
+=======
+# portfolio
+A portfolio website of me
+>>>>>>> 374489f3a24f5aaccd2bc995a8bba64c81d4a6f0
